@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'data/services/api_service.dart';
-//
-// void main() {
-//   runApp(const MyApp());
-// }
-void main() async {
-  final api = ApiService();
-  final data = await api.get('/products', params: {'limit': 10, 'skip': 0});
-  print(data);
+void main() {
+  runApp(const MyApp());
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
