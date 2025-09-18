@@ -14,7 +14,6 @@ class _FutureListViewState extends State<FutureListView> {
   final ScrollController _scrollController = ScrollController();
 
   @override
-  @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -38,12 +37,10 @@ class _FutureListViewState extends State<FutureListView> {
   Widget build(BuildContext context) {
     return Consumer<ProductsProvider>(
       builder: (context, provider, _) {
-        if (provider.isLoading && provider.products.isEmpty) {
+        if (provider.isLoading && provider.filteredProducts.isEmpty) {
           return const Center(child: CircularProgressIndicator());
         }
         if (provider.errorMessage != null) {
-          print(provider.errorMessage);
-
           return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -58,19 +55,19 @@ class _FutureListViewState extends State<FutureListView> {
             ),
           );
         }
-        if (provider.products.isEmpty) {
+        if (provider.filteredProducts.isEmpty) {
           return const Center(child: Text('No products found'));
         }
         return RefreshIndicator(
           onRefresh: () => provider.fetchProducts(refresh: true),
           child: ListView.builder(
             controller: _scrollController,
-            itemCount: provider.products.length + (provider.hasMore ? 1 : 0),
+            itemCount: provider.filteredProducts.length + (provider.hasMore ? 1 : 0),
             itemBuilder: (context, index) {
-              if (index == provider.products.length && provider.hasMore) {
+              if (index == provider.filteredProducts.length && provider.hasMore) {
                 return const Center(child: CircularProgressIndicator());
               }
-              return ProductCard(product: provider.products[index]);
+              return ProductCard(product: provider.filteredProducts[index]);
             },
           ),
         );

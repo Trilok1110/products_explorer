@@ -40,9 +40,8 @@ class _StreamListViewState extends State<StreamListView> {
     return StreamBuilder<List<Product>>(
       stream: provider.productsStream,
       builder: (context, snapshot) {
-
         if (snapshot.connectionState == ConnectionState.waiting &&
-            provider.products.isEmpty ) {
+            provider.filteredProducts.isEmpty) {
           return const Center(child: CircularProgressIndicator());
         }
         if (snapshot.hasError) {
