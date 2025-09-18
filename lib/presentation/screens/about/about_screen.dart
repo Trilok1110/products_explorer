@@ -5,14 +5,18 @@ class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
 
   Widget buildSection({
+    required BuildContext context,
     required IconData icon,
     required String title,
     required List<Widget> children,
   }) {
+    final theme = Theme.of(context);
+
     return Card(
-      elevation: 3,
+      elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       margin: const EdgeInsets.only(bottom: 20),
+      color: theme.cardColor, // adapts with light/dark
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -20,12 +24,15 @@ class AboutScreen extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(icon, color: Colors.blue, size: 26),
+                Icon(
+                  icon,
+                  color: theme.colorScheme.primary, // theme-based icon color
+                  size: 26,
+                ),
                 const SizedBox(width: 10),
                 Text(
                   title,
-                  style: const TextStyle(
-                    fontSize: 20,
+                  style: theme.textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -41,7 +48,8 @@ class AboutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = const TextStyle(fontSize: 15, height: 1.5);
+    final theme = Theme.of(context);
+    final textStyle = theme.textTheme.bodyMedium?.copyWith(height: 1.5);
 
     return Scaffold(
       appBar: AppBar(
@@ -55,23 +63,25 @@ class AboutScreen extends StatelessWidget {
           children: [
             // App Information
             buildSection(
+              context: context,
               icon: FontAwesomeIcons.cube,
               title: 'Products Explorer',
-              children: const [
-                Text("Version: 1.0.0"),
-                SizedBox(height: 6),
-                Text("Developed by: Trilok"),
-                SizedBox(height: 12),
+              children: [
+                Text("Version: 1.0.0", style: textStyle),
+                const SizedBox(height: 6),
+                Text("Developed by: Trilok", style: textStyle),
+                const SizedBox(height: 12),
                 Text(
                   "Products Explorer is a Flutter app that allows users to browse a list of products, view details, and search efficiently. "
                       "It features both Future and Stream-based data fetching with a clean, modern UI.",
-                  style: TextStyle(fontSize: 15, height: 1.5),
+                  style: textStyle,
                 ),
               ],
             ),
 
             // Company Overview
             buildSection(
+              context: context,
               icon: FontAwesomeIcons.building,
               title: 'CyberPoint Private Limited',
               children: [
@@ -91,6 +101,7 @@ class AboutScreen extends StatelessWidget {
 
             // Team & Mission
             buildSection(
+              context: context,
               icon: FontAwesomeIcons.peopleGroup,
               title: 'Our Team & Mission',
               children: [
@@ -110,10 +121,11 @@ class AboutScreen extends StatelessWidget {
 
             // Contact Information
             buildSection(
+              context: context,
               icon: FontAwesomeIcons.solidEnvelope,
               title: 'Contact & Offices',
               children: [
-                const Text("📧 Email: info@cyberpoint.com"),
+                Text("📧 Email: info@cyberpoint.com", style: textStyle),
                 const SizedBox(height: 8),
                 Text(
                   "📍 Offices:\n"
@@ -123,7 +135,7 @@ class AboutScreen extends StatelessWidget {
                   style: textStyle,
                 ),
                 const SizedBox(height: 12),
-                const Text("© 2025 CyberPoint Private Limited"),
+                Text("© 2025 CyberPoint Private Limited", style: textStyle),
               ],
             ),
           ],

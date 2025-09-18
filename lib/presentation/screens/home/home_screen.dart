@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../../core/utils/debouncer.dart';
 import '../../providers/mode_provider.dart';
 import '../../providers/products_provider.dart';
+import '../../providers/theme_provider.dart';
 import '../about/about_screen.dart';
 import 'future_list_view.dart';
 import 'stream_list_view.dart';
@@ -35,11 +36,11 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.grey[100],
+              color: Theme.of(context).cardColor,
               borderRadius: BorderRadius.circular(24),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: .05),
+                  color: Colors.black.withOpacity(0.05),
                   blurRadius: 5,
                   offset: const Offset(0, 2),
                 ),
@@ -84,6 +85,18 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             },
           ),
+          Consumer<ThemeProvider>(
+            builder: (context, themeProvider, _) {
+              return IconButton(
+                icon: Icon(themeProvider.themeMode == ThemeMode.light
+                    ? Icons.dark_mode
+                    : Icons.light_mode),
+                onPressed: () {
+                  themeProvider.toggleTheme();
+                },
+              );
+            },
+          ),
         ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(56),
@@ -93,7 +106,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.grey[200],
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? Colors.grey[200]
+                        : Colors.grey[800],
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: Row(
@@ -145,9 +160,15 @@ class _HomeScreenState extends State<HomeScreen> {
       selected: selected,
       onSelected: onSelected,
       selectedColor: Theme.of(context).colorScheme.secondary,
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Theme.of(context).brightness == Brightness.light
+          ? Colors.grey[300]
+          : Colors.grey[700],
       labelStyle: TextStyle(
-        color: selected ? Colors.white : Colors.black87,
+        color: selected
+            ? Colors.white
+            : Theme.of(context).brightness == Brightness.light
+            ? Colors.black87
+            : Colors.white70,
         fontWeight: FontWeight.bold,
       ),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

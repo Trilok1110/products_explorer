@@ -9,8 +9,12 @@ class ShimmerProductCard extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Shimmer.fromColors(
-        baseColor: Colors.grey[300]!,
-        highlightColor: Colors.grey[100]!,
+        baseColor: Theme.of(context).brightness == Brightness.light
+            ? Colors.grey[300]!
+            : Colors.grey[700]!,
+        highlightColor: Theme.of(context).brightness == Brightness.light
+            ? Colors.grey[100]!
+            : Colors.grey[600]!,
         child: ListTile(
           leading: Container(
             width: 50,

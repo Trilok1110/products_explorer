@@ -11,7 +11,7 @@ class ProductsProvider extends ChangeNotifier {
   bool hasMore = true;
   String? errorMessage;
   String _searchQuery = '';
-  int _skip = 0;
+  int skip = 0;
   final _streamController = StreamController<List<Product>>.broadcast();
 
   ProductsProvider(this.repo) {
@@ -30,18 +30,18 @@ class ProductsProvider extends ChangeNotifier {
 
     try {
       if (refresh) {
-        _skip = 0;
+        skip = 0;
         products.clear();
         filteredProducts.clear();
         hasMore = true;
       }
 
-      final newProducts = await repo.fetchProducts(_skip);
+      final newProducts = await repo.fetchProducts(skip);
       if (newProducts.isEmpty) {
         hasMore = false;
       } else {
         products.addAll(newProducts);
-        _skip += newProducts.length;
+        skip += newProducts.length;
       }
       errorMessage = null;
       _filterProducts(); // Filter after fetching
