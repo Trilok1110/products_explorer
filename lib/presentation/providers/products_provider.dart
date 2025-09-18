@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../data/models/product_model.dart';
 import '../../data/repositories/product_repository.dart';
@@ -9,8 +10,11 @@ class ProductsProvider extends ChangeNotifier {
   bool hasMore = true;
   String? errorMessage;
   int _skip = 0;
+  final _streamController = StreamController<List<Product>>.broadcast();
 
   ProductsProvider(this.repo);
+
+  Stream<List<Product>> get productsStream => _streamController.stream;
 
   Future<void> fetchProducts({bool refresh = false}) async {
     if (isLoading || !hasMore) return;
@@ -33,11 +37,19 @@ class ProductsProvider extends ChangeNotifier {
         _skip += newProducts.length;
       }
       errorMessage = null;
+      _streamController.add(products); // Emit to stream
     } catch (e) {
       errorMessage = 'Failed to load products: $e';
+      _streamController.addError(errorMessage!); // Emit error to stream
     }
 
     isLoading = false;
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _streamController.close();
+    super.dispose();
   }
 }

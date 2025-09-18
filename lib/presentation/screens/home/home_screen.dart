@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/mode_provider.dart';
 import 'future_list_view.dart';
+import 'stream_list_view.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -48,7 +49,7 @@ class HomeScreen extends StatelessWidget {
         builder: (context, modeProvider, _) {
           return modeProvider.mode == Mode.future
               ? const FutureListView()
-              : const Center(child: Text('StreamListView Placeholder'));
+              : const StreamListView();
         },
       ),
     );
