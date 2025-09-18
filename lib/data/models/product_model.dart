@@ -3,10 +3,10 @@ class Product {
   final String title;
   final String description;
   final num price;
-  final String? brand; // Made nullable
+  final String? brand;
   final String category;
   final num rating;
-  final String? thumbnail; // Made nullable
+  final String? thumbnail;
 
   Product({
     required this.id,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../data/models/product_model.dart';
+import '../screens/product_detail/product_detail_screen.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
@@ -11,23 +12,32 @@ class ProductCard extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: ListTile(
-        leading: product.thumbnail != null
-            ? Image.network(
-          product.thumbnail!,
-          width: 50,
-          height: 50,
-          fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
-        )
-            : const Icon(Icons.image_not_supported),
+        leading: Hero(
+          tag: 'product-${product.id}',
+          child: product.thumbnail != null
+              ? Image.network(
+            product.thumbnail!,
+            width: 50,
+            height: 50,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+          )
+              : const Icon(Icons.image_not_supported),
+        ),
         title: Text(
           product.title,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         subtitle: Text(
-          '\$${(product.price * 88.16).toStringAsFixed(2)} | Rating: ${product.rating.toStringAsFixed(1)}', // dollar to rs
+          '\$${product.price.toStringAsFixed(2)} | Rating: ${product.rating.toStringAsFixed(1)}',
         ),
         onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProductDetailScreen(product: product),
+            ),
+          );
         },
       ),
     );
