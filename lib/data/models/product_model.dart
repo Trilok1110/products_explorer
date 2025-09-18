@@ -3,32 +3,32 @@ class Product {
   final String title;
   final String description;
   final num price;
-  final String brand;
+  final String? brand; // Made nullable
   final String category;
   final num rating;
-  final String thumbnail;
+  final String? thumbnail; // Made nullable
 
   Product({
     required this.id,
     required this.title,
     required this.description,
     required this.price,
-    required this.brand,
+    this.brand,
     required this.category,
     required this.rating,
-    required this.thumbnail,
+    this.thumbnail,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-      id: json['id'] as int,
-      title: json['title'] as String,
-      description: json['description'] as String,
-      price: json['price'] as num,
-      brand: json['brand'] as String,
-      category: json['category'] as String,
-      rating: json['rating'] as num,
-      thumbnail: json['thumbnail'] as String,
+      id: json['id'] as int? ?? 0,
+      title: json['title'] as String? ?? 'No Title',
+      description: json['description'] as String? ?? 'No Description',
+      price: json['price'] as num? ?? 0.0,
+      brand: json['brand'] as String?,
+      category: json['category'] as String? ?? 'Unknown',
+      rating: json['rating'] as num? ?? 0.0,
+      thumbnail: json['thumbnail'] as String?,
     );
   }
 }
