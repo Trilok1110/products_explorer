@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../../data/models/product_model.dart';
 import '../../providers/products_provider.dart';
 import '../../widgets/product_card.dart';
+import '../../widgets/shimmer_product_card.dart';
 
 class StreamListView extends StatefulWidget {
   const StreamListView({super.key});
@@ -42,25 +43,77 @@ class _StreamListViewState extends State<StreamListView> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting &&
             provider.filteredProducts.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
+          return ListView.builder(
+            itemCount: 5, // Show 5 shimmer cards
+            itemBuilder: (context, index) => const ShimmerProductCard(),
+          );
         }
         if (snapshot.hasError) {
           return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(snapshot.error.toString()),
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () => provider.fetchProducts(),
-                  child: const Text('Retry'),
-                ),
-              ],
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                color: Colors.grey[100],
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: .05),
+                    blurRadius: 5,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                  const SizedBox(height: 16),
+                  Text(
+                    snapshot.error.toString(),
+                    style: const TextStyle(fontSize: 16),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () => provider.fetchProducts(),
+                    child: const Text('Retry'),
+                  ),
+                ],
+              ),
             ),
           );
         }
         if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(child: Text('No products found'));
+          return Center(
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                color: Colors.grey[100],
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: .05),
+                    blurRadius: 5,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: const Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.search_off, size: 48, color: Colors.grey),
+                  SizedBox(height: 16),
+                  Text(
+                    'No products found',
+                    style: TextStyle(fontSize: 16),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+          );
         }
         return RefreshIndicator(
           onRefresh: () => provider.fetchProducts(refresh: true),
@@ -69,7 +122,7 @@ class _StreamListViewState extends State<StreamListView> {
             itemCount: snapshot.data!.length + (provider.hasMore ? 1 : 0),
             itemBuilder: (context, index) {
               if (index == snapshot.data!.length && provider.hasMore) {
-                return const Center(child: CircularProgressIndicator());
+                return const ShimmerProductCard();
               }
               return ProductCard(product: snapshot.data![index]);
             },

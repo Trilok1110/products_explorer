@@ -16,6 +16,7 @@ dependencies:
   cached_network_image:
   shared_preferences:
   shimmer:
+  font_awesome_flutter:
 
 dev_dependencies:
   flutter_test:
