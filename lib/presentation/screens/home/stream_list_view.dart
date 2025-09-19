@@ -107,7 +107,7 @@ class _StreamListViewState extends State<StreamListView> {
                   SizedBox(height: 16),
                   Text(
                     'No products found',
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 16 , color: Colors.grey),
                     textAlign: TextAlign.center,
                   ),
                 ],

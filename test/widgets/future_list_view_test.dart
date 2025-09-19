@@ -25,11 +25,7 @@ class _FakeApiService implements ApiService {
     return {};
   }
 
-  @override
-  Future<Map<String, dynamic>> post(String endpoint,
-      {Map<String, dynamic>? body}) async {
-    return {};
-  }
+
 }
 
 void main() {

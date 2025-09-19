@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, _) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: 'Products Explorer',
             theme: ThemeData(
               primarySwatch: Colors.blue,
