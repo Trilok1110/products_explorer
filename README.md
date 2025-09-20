@@ -193,8 +193,4 @@ dev_dependencies:
 
 ---
 
-*Built with Flutter 💙 for a seamless cross-platform experience.*
-
-```
-
-
+*Built with Flutter 💙*
